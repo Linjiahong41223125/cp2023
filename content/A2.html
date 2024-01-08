@@ -144,7 +144,154 @@ img.add_border {
         </header>
     <div id="tipue_search_content">A1 << <a href='A1.html'>Previous</a> <a href='w16.html'>Next</a> >> w16<br /><h1>A2</h1>
 <p><img caption="false" height="267" src="./../images/roc02.png" width="400"/></p>
-<p></p><br />A1 << <a href='A1.html'>Previous</a> <a href='w16.html'>Next</a> >> w16</div>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
+#include &lt;gd.h&gt;
+#include &lt;math.h&gt;
+  
+// 定義座標結構
+typedef struct {
+    double x;
+    double y;
+} Point;
+  
+// Function prototypes
+void draw_roc_flag(gdImagePtr img);
+void draw_white_sun(gdImagePtr img, int x, int y, int size, int color);
+void connectPoints(gdImagePtr img, int x1, int y1, int x2, int y2, int color);
+Point circleLineIntersection(double h, double k, double r, double x1, double y1, double x2, double y2);
+  
+  
+int main() {
+    // width 3: height 2
+    int width = 1200;
+    // 國旗長寬比為 3:2
+    int height = (int)(width*2.0 / 3.0);
+   
+    gdImagePtr img = gdImageCreateTrueColor(width, height);
+    gdImageAlphaBlending(img, 0);
+   
+    draw_roc_flag(img);
+   
+    FILE *outputFile = fopen("Y:/tmp/c_ex/roc03.png", "wb");
+    if (outputFile == NULL) {
+        fprintf(stderr, "Error opening the output file.\n");
+        return 1;
+    }
+    gdImagePngEx(img, outputFile, 9);
+    fclose(outputFile);
+    gdImageDestroy(img);
+    return 0;
+}
+void connectPoints(gdImagePtr img, int x1, int y1, int x2, int y2, int color) {
+    gdImageLine(img, x1, y1, x2, y2, color);
+}
+  
+// ... connectPoints 函式的實作 ...
+  
+// 實作 draw_white_sun 函式
+  
+// 修改 circleLineIntersection 函式
+Point circleLineIntersection(double h, double k, double r, double x1, double y1, double x2, double y2) {
+    Point intersection;
+  
+    // 直線斜率
+    double m = (y2 - y1) / (x2 - x1);
+  
+    // 直線方程式中的常數項
+    double b = y1 - m * x1;
+  
+    // 圓與直線交點的計算
+    double A = 1 + pow(m, 2);
+    double B = 2 * (m * b - m * k - h);
+    double C = pow(k, 2) - pow(r, 2) + pow(h, 2) - 2 * b * k + pow(b, 2);
+  
+    // 判斷交點個數
+    double discriminant = pow(B, 2) - 4 * A * C;
+    if (discriminant &gt; 0) {
+        intersection.x = (-B + sqrt(discriminant)) / (2 * A);
+        intersection.y = m * intersection.x + b;
+        printf("交點: (%.2f, %.2f)\n", intersection.x, intersection.y);
+  
+        intersection.x = (-B - sqrt(discriminant)) / (2 * A);
+        intersection.y = m * intersection.x + b;
+        printf("交點: (%.2f, %.2f)\n", intersection.x, intersection.y);
+    } else if (discriminant == 0) {
+        intersection.x = -B / (2 * A);
+        intersection.y = m * intersection.x + b;
+        printf("交點: (%.2f, %.2f)\n", intersection.x, intersection.y);
+    } else {
+        printf("No points.\n");
+    }
+  
+    return intersection;
+}
+  
+// 完成 draw_roc_flag 函式
+void draw_roc_flag(gdImagePtr img) {
+    int width = gdImageSX(img);
+    int height = gdImageSY(img);
+    int red, white, blue;
+  
+    // 白日位於青天面積正中央, 因此中心點座標為長寬各 1/4 處
+    int center_x = (int)(width / 4);
+    int center_y = (int)(height / 4);
+  
+    // gdImageFilledEllipse 需以長寬方向的 diameter 作圖
+    // 由於中央白日圓形的半徑為青天寬度的 1/8
+    // 因此中央白日圓形的直徑為青天寬度的 1/4, 也就是國旗寬度的 1/8
+    // 而且白日十二道光芒的外圍圓形其半徑也是國旗寬度的1/8
+    int sun_radius = (int)(width / 8);
+    // 中央白日圓形的直徑等於十二道光芒外圍圓形的半徑
+    int white_circle_dia = sun_radius;
+    // 中央藍色圓形半徑為中央白日的 1又 2/15
+    int blue_circle_dia = white_circle_dia + white_circle_dia * 2 / 15;
+  
+    // 根據 https://www.moi.gov.tw/cp.aspx?n=10621 訂定國旗三種顏色值
+    red = gdImageColorAllocate(img, 255, 0, 0);      // 紅色
+    white = gdImageColorAllocate(img, 255, 255, 255); // 白色
+    blue = gdImageColorAllocate(img, 0, 0, 149);      // 藍色
+  
+    // 根據畫布大小塗上紅色長方形區域
+    gdImageFilledRectangle(img, 0, 0, width, height, red);
+    // 青天面積為整面國旗的 1/4, 也是採用長方形塗色
+    gdImageFilledRectangle(img, 0, 0, (int)(width / 2.0), (int)(height / 2.0), blue);
+  
+    // 先設法以填色畫出六個白色堆疊菱形
+    connectPoints(img, 429, 125, 279, 165, white);
+    connectPoints(img, 170, 274, 279, 165, white);
+    connectPoints(img, 170, 274, 319, 234, white);
+    connectPoints(img, 319, 234, 429, 125, white);
+  
+    // 利用一個藍色大圓與白色小圓畫出藍色環狀
+    gdImageFilledEllipse(img, center_x, center_y, blue_circle_dia, blue_circle_dia, blue);
+    gdImageFilledEllipse(img, center_x, center_y, white_circle_dia, white_circle_dia, white);
+  
+    // 計算圓與線的交點
+    double circle_x = (int)(width / 4);  // 圓心 x 座標
+    double circle_y = (int)(height / 4); // 圓心 y 座標
+    double radius = white_circle_dia + white_circle_dia * 2 / 15; // 圓半徑
+  
+    // 兩點座標
+    double x3 = 170;
+    double y3 = 274;
+    double x4 = 279;
+    double y4 = 165;
+  
+    Point intersection1 = circleLineIntersection(circle_x, circle_y, radius, x4, y4, x3, y3);
+  
+    double x5 = 279;
+    double y5 = 165;
+    double x6 = 429;
+    double y6 = 125;
+  
+  
+    Point intersection2 = circleLineIntersection(circle_x, circle_y, radius, x6, y6, x5, y5);
+    // 使用交點座標，例如印出或繪製到圖片中
+    //printf("Intersection 1: (%.2f, %.2f)\n", intersection1.x, intersection1.y);
+    //printf("Intersection 2: (%.2f, %.2f)\n", intersection2.x, intersection2.y);
+    // ... 計算其他兩條直線的座標 ...
+}</pre>
+<p><br/><br/></p><br />A1 << <a href='A1.html'>Previous</a> <a href='w16.html'>Next</a> >> w16</div>
         
     <!-- footer -->
       <div class="container">
