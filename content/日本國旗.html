@@ -2,7 +2,7 @@
         <head>
         <title>cmsite</title>
         <meta charset="utf-8">
-<meta property="head" content="H1">
+<meta property="head" content="H2">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
@@ -142,9 +142,73 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">w9 << <a href='w9.html'>Previous</a> <a href='w15.html'>Next</a> >> w15<br /><h1>w13</h1>
-<p>　　對於這禮拜的學習是"無"，由於這禮拜我請假所以沒學到這卻給了我更多的思考，我需要甚麼?說實在話我是普通機械科畢業，甚麼?說實在話我是普通機械科畢業，電腦對我來說根本是不同領域的世界，我既不懂任何網路協定也無法想像虛擬的網路世界，我真的需要嗎?</p>
-<p>　　答案是"我需要"如果想像不到那就從最激出的開始一步一步慢慢理解，就像嬰兒剛出生慢慢了解世界，且對她有所想像。</p><br />w9 << <a href='w9.html'>Previous</a> <a href='w15.html'>Next</a> >> w15</div>
+    <div id="tipue_search_content">美國國旗 << <a href='美國國旗.html'>Previous</a> <a href='英國國旗.html'>Next</a> >> 英國國旗<br /><h1>日本國旗</h1>
+<p>程式如下</p>
+<div>
+<div class="syntaxhighlighter cpp" id="highlighter_310373">
+<pre class="brush:csharp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
+#include &lt;gd.h&gt;
+#include &lt;math.h&gt;
+ 
+void draw_japan_flag(gdImagePtr img);
+void draw_red_sun(gdImagePtr img, int x, int y, int size, int color);
+ 
+int main() {
+    int originalWidth = 1200;
+    int originalHeight = (int)(originalWidth * 2.0 / 3.0);
+    gdImagePtr img = gdImageCreateTrueColor(originalWidth, originalHeight);
+    gdImageAlphaBlending(img, 0);
+ 
+    draw_japan_flag(img);
+ 
+    // 新的宽度和高度以适应 "images" 文件夹
+    int newWidth = 600;
+    int newHeight = (int)(newWidth * 2.0 / 3.0);
+ 
+    // 创建新图像并进行缩放
+    gdImagePtr resizedImage = gdImageCreateTrueColor(newWidth, newHeight);
+    gdImageAlphaBlending(resizedImage, 0);
+    gdImageCopyResampled(resizedImage, img, 0, 0, 0, 0, newWidth, newHeight, originalWidth, originalHeight);
+ 
+  FILE *outputFile = fopen("./../images/japan_flag.png", "wb");
+    if (outputFile == NULL) {
+        fprintf(stderr, "Error opening the output file.\n");
+        return 1;
+    }
+    gdImagePng(resizedImage, outputFile);
+    fclose(outputFile);
+    gdImageDestroy(img);
+    gdImageDestroy(resizedImage);
+ 
+    return 0;
+}
+ 
+void draw_japan_flag(gdImagePtr img) {
+    int width = gdImageSX(img);
+    int height = gdImageSY(img);
+ 
+    // 创建一个白色背景
+    int white = gdImageColorAllocate(img, 255, 255, 255);
+    gdImageFilledRectangle(img, 0, 0, width - 1, height - 1, white);
+ 
+    // 绘制红色圆圈（太阳）
+    int red = gdImageColorAllocate(img, 255, 0, 0);
+    int center_x = width / 2;
+    int center_y = height / 2;
+    int radius = (int)((width * 2) / 3);
+    draw_red_sun(img, center_x, center_y, radius, red);
+}
+ 
+void draw_red_sun(gdImagePtr img, int x, int y, int size, int color) {
+  // 減小 size 的值,例如將他的值減半
+  size = size / 2;
+    gdImageArc(img, x, y, size, size, 0, 360, color);
+    gdImageFillToBorder(img, x, y, color, color);
+}
+</pre>
+<br/><img alt="" height="371" src="./../images/japan_flag.png" width="557"/></div>
+<div class="syntaxhighlighter cpp">
+<br />美國國旗 << <a href='美國國旗.html'>Previous</a> <a href='英國國旗.html'>Next</a> >> 英國國旗</div>
         
     <!-- footer -->
       <div class="container">

@@ -60,7 +60,44 @@ int main() {
 }
 </pre>
 <p><br/><img alt="" height="286" src="/images/gnuplot_ex1.png" width="572"/></p><h1>w6</h1>
-<p><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">台灣國旗</span></span></span></span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">程式如下</span></span></span></span></p>
+<p><span>需有：</span></p>
+<div>
+<div class="syntaxhighlighter cpp" id="highlighter_130172">
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td class="gutter">
+<div class="line number1 index0 alt2">1</div>
+<div class="line number2 index1 alt1">2</div>
+<div class="line number3 index2 alt2">3</div>
+<div class="line number4 index3 alt1">4</div>
+<div class="line number5 index4 alt2">5</div>
+<div class="line number6 index5 alt1">6</div>
+<div class="line number7 index6 alt2">7</div>
+<div class="line number8 index7 alt1">8</div>
+<div class="line number9 index8 alt2">9</div>
+<div class="line number10 index9 alt1">10</div>
+</td>
+<td class="code">
+<div class="container">
+<div class="line number1 index0 alt2"><code class="cpp plain">{ pkgs }: {</code></div>
+<div class="line number2 index1 alt1"><code class="cpp spaces">    </code><code class="cpp plain">deps = [</code></div>
+<div class="line number3 index2 alt2"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.sudo</code></div>
+<div class="line number4 index3 alt1"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.clang_12</code></div>
+<div class="line number5 index4 alt2"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.ccls</code></div>
+<div class="line number6 index5 alt1"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.gdb</code></div>
+<div class="line number7 index6 alt2"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.gnumake</code></div>
+<div class="line number8 index7 alt1"><code class="cpp spaces">        </code><code class="cpp plain">pkgs.gnuplot</code></div>
+<div class="line number9 index8 alt2"><code class="cpp spaces">    </code><code class="cpp plain">];</code></div>
+<div class="line number10 index9 alt1"><code class="cpp plain">}</code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong><span style="vertical-align: inherit; background-color: #ffff00;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">台灣國旗</span></span></span></span></strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">程式如下</span></span></span></span></p>
 <pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
 #include &lt;gd.h&gt;
 #include &lt;math.h&gt;
@@ -179,7 +216,8 @@ gdImagePolygon(img, points, 4, color);
 }</pre>
 <p></p>
 <p><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><img alt="" height="382" src="/images/roc_flag_in_gd.png" width="574"/></span></span></span></span></p>
-<p><span style="vertical-align: inherit;"></span>美國國旗</p>
+<p></p>
+<h2>美國國旗</h2>
 <p>程式如下</p>
 <pre class="brush:csharp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
 #include &lt;gd.h&gt;
@@ -270,8 +308,7 @@ points[i].y = y + radius * sin(angle);
 gdImageFilledPolygon(img, points, 10, color);
 }</pre>
 <p></p>
-<p><span style="vertical-align: inherit;"><img alt="" height="295" src="/images/usa_flag.png" width="561"/></span></p>
-<h4>日本國旗</h4>
+<p><span style="vertical-align: inherit;"><img alt="" height="295" src="/images/usa_flag.png" width="561"/></span></p><h2>日本國旗</h2>
 <p>程式如下</p>
 <div>
 <div class="syntaxhighlighter cpp" id="highlighter_310373">
@@ -336,9 +373,12 @@ void draw_red_sun(gdImagePtr img, int x, int y, int size, int color) {
 }
 </pre>
 <br/><img alt="" height="371" src="/images/japan_flag.png" width="557"/></div>
-</div>
+<div class="syntaxhighlighter cpp">
+<h2>英國國旗</h2>
 <p></p>
-<h1>w7</h1>
+</div>
+</div>
+<p></p><h1>w7</h1>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
 #include &lt;gd.h&gt;
 #include &lt;math.h&gt;
