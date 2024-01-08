@@ -1121,8 +1121,101 @@ int main() {
 <p><span><span><strong>cter+F</strong></span>，尋找<span><strong>run</strong></span>，圖下:(在兩段後面加上<span><strong>-lgd</strong></span>)</span></p>
 <p><img alt="" height="111" src="https://zhe41223118.github.io/cp2023/images/0009.png" width="480"/></p>
 <h2>chinese</h2>
-<p></p>
-<h2>korea</h2>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">#include &lt;stdio.h&gt;
+#include &lt;gd.h&gt;
+#include &lt;math.h&gt;
+
+
+void draw_star(gdImagePtr img, int x, int y, int size, int color, int rotation);
+void draw_proc_flag(gdImagePtr img);
+
+int main() {
+
+    int width = 1200;
+
+    int height = (int)(width * 2.0 / 3.0);
+
+    gdImagePtr img = gdImageCreateTrueColor(width, height);
+    gdImageAlphaBlending(img, 0);
+
+    draw_proc_flag(img);
+
+    FILE *outputFile = fopen("proc_gd.png", "wb");
+    if (outputFile == NULL) {
+        fprintf(stderr, "Error opening the output file.\n");
+        return 1;
+    }
+    gdImagePngEx(img, outputFile, 9);
+    fclose(outputFile);
+    gdImageDestroy(img);
+    return 0;
+}
+
+void draw_star(gdImagePtr img, int x, int y, int size, int color, int rotation) {
+    double deg = M_PI / 180.0;
+    gdPoint points[10]; 
+    int num_points = 10;
+
+    for (int i = 0; i &lt; num_points; i++) {
+
+        double angle = M_PI / 2 + i * 2 * M_PI / 10 + rotation * deg;
+        int radius = (i % 2 == 0) ? size : size * sin(18 * deg) / cos(36 * deg);
+        points[i].x = x + radius * cos(angle);
+        points[i].y = y - radius * sin(angle);
+    }
+
+    gdImagePolygon(img, points, num_points, color);
+}
+
+void draw_proc_flag(gdImagePtr img) {
+    double deg = M_PI / 180.0;
+    int width = gdImageSX(img);
+    int height = gdImageSY(img);
+    int red, yellow, black, white;
+    double angle;
+
+    int center_x = (int)(width / 6);
+    int center_y = (int)(height / 4);
+
+    int big_star_radius = (int)(width / 10);
+
+    int small_star_radius = (int)(width / 30);
+
+    red = gdImageColorAllocate(img, 238, 28, 37); 
+    yellow = gdImageColorAllocate(img, 255, 255, 0); 
+    black = gdImageColorAllocate(img, 0, 0, 0); 
+    white = gdImageColorAllocate(img, 255, 255, 255); 
+
+    gdImageFilledRectangle(img, 0, 0, width, height, white);
+
+    draw_star(img, center_x, center_y, big_star_radius, black, 0);
+
+    center_x = (int) width/3;
+    center_y = (int) width/15;
+
+    angle = 180 - atan(5/3)/deg;
+    draw_star(img, center_x, center_y, small_star_radius, black, angle);
+    // the second small star
+    center_x = (int) 2*width/5;
+    center_y = (int) 2*width/15;
+
+    angle = 180 - atan(7/1)/deg;
+    draw_star(img, center_x, center_y, small_star_radius, black, angle);
+    // the third small star
+    center_x = (int) 2*width/5;
+    center_y = (int) 7*width/30;
+
+    angle = atan(7/2)/deg;
+    draw_star(img, center_x, center_y, small_star_radius, black, angle);
+
+    center_x = (int) width/3;
+    center_y = (int) 3*width/10;
+
+    angle = atan(5/4)/deg;
+    draw_star(img, center_x, center_y, small_star_radius, black, angle);
+}</pre>
+<p><img alt="" height="267" src="/images/proc_gd.png" width="400"/></p>
+<p><br/><br/></p><h2>korea</h2>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">https://en.wikipedia.org/wiki/Flag_of_South_Korea#/media/File:Flag_of_South_Korea_(construction_sheet).svg
 #include &lt;stdio.h&gt;
 #include &lt;gd.h&gt;
